@@ -30,16 +30,16 @@ namespace VersionInfo {
     //
     // It uses the form "<project name> <last tag>-<# commits since last tag>-<short commit hash>".
     // If there are no commits since the last tag, only the tag is shown.
-    constexpr std::string_view VERSION_STR = "GDDx11InteropDemo 9d2f527";
+    constexpr std::string_view VERSION_STR = "GDDx11InteropDemo d10e7fe";
 
     // The version information as a string.
     // This is generated using the current git commit information.
     //
     // It uses the form "<last tag>-<# commits since last tag>-<short commit hash>".
     // If there are no commits since the last tag, only the tag is shown.
-    constexpr std::string_view VERSION_SHORT_STR = "9d2f527";
+    constexpr std::string_view VERSION_SHORT_STR = "d10e7fe";
 
     // The full git SHA1 hash as a string.
     // This is generated using the current git commit information.
-    constexpr std::string_view GIT_SHA1_STR = "9d2f5273b38bf7d1ee13e73e3c5380a9367720ad";
+    constexpr std::string_view GIT_SHA1_STR = "d10e7fe61d374f22e6a5a34089d3bad37f0d8074";
 }

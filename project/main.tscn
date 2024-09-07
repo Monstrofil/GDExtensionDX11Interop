@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://cewh1jue1lnum"]
 
-[sub_resource type="Texture2DRD" id="Texture2DRD_cc418"]
-texture_rd_rid = RID(526631709974065)
+[sub_resource type="Texture2DRD" id="Texture2DRD_c6r8x"]
+texture_rd_rid = RID(526885113044529)
 
 [node name="Test" type="Node3D"]
 
 [node name="Dx11TextureView" type="Dx11TextureView" parent="."]
 position = Vector2(580, 320)
 scale = Vector2(0.512, 0.512)
-texture = SubResource("Texture2DRD_cc418")
+texture = SubResource("Texture2DRD_c6r8x")
