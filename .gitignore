@@ -418,3 +418,7 @@ CMakeUserPresets.json
 
 *.vcxproj*
 *.sln
+
+!scaleform.gdextension
+
+!project/bin/

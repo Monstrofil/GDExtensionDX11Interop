@@ -1,0 +1,10 @@
+[configuration]
+
+entry_symbol = "GDExtensionInit"
+compatibility_minimum = 4.2
+reloadable = true
+
+[libraries]
+
+windows.x86_64.debug = "res://../GDDx11InteropDemo/lib/Windows-AMD64/Debug/GDDx11InteropDemo-d.dll"
+windows.x86_64.release = "res://../GDDx11InteropDemo/lib/Windows-AMD64/Debug/GDDx11InteropDemo-d.dll"
