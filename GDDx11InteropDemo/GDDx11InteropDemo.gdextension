@@ -1,0 +1,11 @@
+[configuration]
+entry_symbol = "GDExtensionInit"
+compatibility_minimum = 4.1
+
+[icons]
+Example = "icons/Example.svg"
+
+[libraries]
+linux.debug.x86_64 = "lib/Linux-x86_64/libGDDx11InteropDemo-d.so"
+macos.debug = "lib/Darwin-Universal/libGDDx11InteropDemo-d.dylib"
+windows.debug.x86_64 = "lib/Windows-AMD64/GDDx11InteropDemo-d.dll"
