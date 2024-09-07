@@ -180,6 +180,7 @@ bool Dx11TextureView::createVulkanSharedTexture(VkPhysicalDevice physicalDevice,
 	imageCreateInfo.tiling        = VK_IMAGE_TILING_OPTIMAL;
     imageCreateInfo.usage = 
         VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | 
+        VK_IMAGE_USAGE_TRANSFER_SRC_BIT |
         VK_IMAGE_USAGE_SAMPLED_BIT;
 	imageCreateInfo.flags         = 0;
 	imageCreateInfo.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
@@ -242,12 +243,20 @@ bool Dx11TextureView::createVulkanSharedTexture(VkPhysicalDevice physicalDevice,
 		}
 	}
 
+    // memoryTypeIndex can be 0, but vulkan layers
+    // produce warning when it is = memoryTypeIndex
+    // strange, but ok
     if ( memoryTypeIndex == -1 )
     {
         DEV_ASSERT( false );
         return false;
     }
 
+    // vulkan actually complains about this
+    // pAllocateInfo->pNext<VkImportMemoryWin32HandleInfoKHR> 
+    // extended struct requires the extensions VK_KHR_external_memory_win32
+    // but is still works and adding VK_KHR_external_memory_win32 requires godot rebuild
+    // which I obviously don't want to do
 	VkImportMemoryWin32HandleInfoKHR importMemoryInfo;
     importMemoryInfo.sType      = VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR;
 	importMemoryInfo.pNext      = nullptr;
@@ -324,9 +333,7 @@ void Dx11TextureView::_ready()
     VkExternalMemoryHandleTypeFlagBits externalMemoryHandleType;
 
     VkFormat imageFormat = VK_FORMAT_R8G8B8A8_UNORM;
-    VkImageUsageFlags imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
-                                   VK_IMAGE_USAGE_TRANSFER_SRC_BIT |
-                                   VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+    VkImageUsageFlags imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
     BOOL sharingTexturesSupported =
         isSharedTextureSupported( vkPhysicalDevice, vkDevice, imageFormat, imageUsage,
@@ -347,27 +354,8 @@ void Dx11TextureView::_ready()
         app.textureWidth, app.textureHeight, 1, 1 );
 
     textureRd = (godot::Ref<godot::Texture2DRD>)memnew( godot::Texture2DRD );
-    textureRd->set_texture_rd_rid( texCreateResult );
-
-    auto size = textureRd->get_size();
-    auto imageRd = textureRd->get_image();
-
-    godot::UtilityFunctions::print( "First 16 bytes of set_texture_rd_rid texture" );
-    godot::UtilityFunctions::print( imageRd->get_data().slice( 0, 16 ).hex_encode() );
-
-
-    DEV_ASSERT( size.width > 0 );
-
-    
+    textureRd->set_texture_rd_rid( texCreateResult );   
     this->set_texture( textureRd );
-
-    
-    godot::RID canvasRID = godot::RenderingServer::get_singleton()->canvas_item_create();
-    godot::RenderingServer::get_singleton()->canvas_item_set_parent( canvasRID,
-                                                                     this->get_canvas_item() );
-
-    godot::RenderingServer::get_singleton()->canvas_item_add_texture_rect(
-        canvasRID, godot::Rect2( 0, 110, 100, 100 ), textureRd->get_rid() );
 }
 
 void Dx11TextureView::_exit_tree()
